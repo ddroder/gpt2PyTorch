@@ -25,9 +25,17 @@ def summary_model():
         return render_template("summaryModel.html")
     return render_template("summaryModel.html")
 
-@app.route("/qaModel")
+@app.route("/qaModel",methods=['GET','POST'])
 def qa_model():
+    if request.method=='POST':
+        context=request.form['context']
+        question=request.form['question']
+        model=aiReadingModels()
+        aGeneration=model.qaModelGeneration(question=question,context=context)
+        flash(aGeneration,category="success")
+        return render_template("qaModel.html")
     return render_template("qaModel.html")
+
 
 if __name__=="__main__":
     app.run(debug=True)
