@@ -3,8 +3,14 @@
 
 <head>
     <style>
-        h1{
+        h1 {
             text-align: center;
+        }
+        form{
+            display:inline-block;
+        }
+        body{
+            text-align:center
         }
     </style>
 </head>
@@ -13,5 +19,15 @@
     <h1>
         stuff
     </h1>
+    <br>
+    <br>
+    <br>
+    <form method='POST'>
+        <input name="text">
+        <br>
+        <!-- <input type="submit"> -->
+        <button type="submit" class="btn btn-outline-success">Submit text</button>
+
+    </form>
 </body>
 {%endblock%}
