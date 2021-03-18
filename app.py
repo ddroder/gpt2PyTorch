@@ -20,7 +20,6 @@ def summary_model():
         text=request.form['text']
         model=aiReadingModels()
         summaryGeneration=model.summaryGeneration(text)
-        # print(f"{text}")
         flash(summaryGeneration,category="success")
         return render_template("summaryModel.html")
     return render_template("summaryModel.html")
@@ -36,6 +35,19 @@ def qa_model():
         return render_template("qaModel.html")
     return render_template("qaModel.html")
 
+@app.route("/textGen",methods=['GET','POST'])
+def text_gen():
+    if request.method=="POST":
+        # start_text="A new breed of unicorns has been discovered in the andes mountains!"
+        start_text=request.form['text']
+        max_length=int(request.form['max_length'])
+        num_return_sequences=int(request.form['num_return_sequences'])
+        model=aiReadingModels()
+        textGen=model.textGen(startText=start_text,max_length=max_length,num_return_sequences=num_return_sequences)
+        # print(textGen)
+        flash(textGen,category="success")
+        return render_template("text_gen.html")
+    return render_template("text_gen.html")
 
 if __name__=="__main__":
     app.run(debug=True)
