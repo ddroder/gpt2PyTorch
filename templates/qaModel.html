@@ -12,16 +12,27 @@
     h1 {
         text-align: center;
     }
+
+    form {
+        display: inline-block;
+    }
+
+    body {
+        text-align: center
+    }
 </style>
 
 <body>
     <h1>Hello, Welcome to Co-Reader!</h1>
     <form method='POST'>
         <label for="context"> Context:</label>
+        <br>
         <input name="context" id="context">
         <br>
         <label for="question">Question:</label>
+        <br>
         <input name="question" id="question">
+        <br>
         <br>
         <!-- <input type="submit"> -->
         <button type="submit" class="btn btn-outline-success">Submit text</button>

@@ -12,25 +12,32 @@
         body{
             text-align:center
         }
-
     </style>
 </head>
 
 <body>
     <h1>
-        Generate a summary
+        Text generation
     </h1>
     <br>
     <br>
     <br>
     <form method='POST'>
-        <label for="text">Text to summarize:</label>
+        <label for="text">Start text:</label>
         <br>
         <input name="text">
         <br>
+        <label for="max_length">Maximum length:</label>
+        <br>
+        <input name="max_length">
+        <br>
+        <label for="num_return_sequences">Number of sequences to generate:</label>
+        <br>
+        <input name="num_return_sequences">
+        <br>
         <br>
         <!-- <input type="submit"> -->
-        <button type="submit" class="btn btn-outline-success">Submit text</button>
+        <button type="submit" class="btn btn-outline-success">Submit text to generate</button>
 
     </form>
 </body>
