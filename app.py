@@ -18,8 +18,10 @@ def index():
 def summary_model():
     if request.method=="POST":
         text=request.form['text']
+        model=aiReadingModels()
+        summaryGeneration=model.summaryGeneration(text)
         # print(f"{text}")
-        flash(text,category="success")
+        flash(summaryGeneration,category="success")
         return render_template("summaryModel.html")
     return render_template("summaryModel.html")
 
