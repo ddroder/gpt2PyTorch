@@ -19,7 +19,7 @@ def summary_model():
     if request.method=="POST":
         text=request.form['text']
         # print(f"{text}")
-        flash(text,category="error")
+        flash(text,category="success")
         return render_template("summaryModel.html")
     return render_template("summaryModel.html")
 
