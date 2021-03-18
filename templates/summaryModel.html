@@ -2,8 +2,27 @@
 {%block content%}
 
 <head>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for category, message in messages %}
+            {%if category == "success"%}
+                <li class="alert alert-success alert-dismissible fade show" role="alert">{{ message }}</li>
+            {%elif category == "error"%}
+                <li class="alert alert-warning alert-dismissible fade show" role="alert">{{ message }}</li>
+            {%endif%}
+        {% endfor %}
+    
+        <!-- {%if category == "error"%}
+            {% for category, message in messages %}
+                <li class="alert alert-danger alert-dismissible fade show" role="alert">{{ category }}</li>
+            {% endfor %}
+        {%endif%} -->
+    </ul>
+    {% endif %}
+    {% endwith %}
     <style>
-        h1{
+        h1 {
             text-align: center;
         }
     </style>
@@ -13,5 +32,14 @@
     <h1>
         stuff
     </h1>
+    <br>
+    <br>
+    <br>
+    <form method='POST'>
+        <input name="text">
+        <br>
+        <input type="submit">
+
+    </form>
 </body>
 {%endblock%}
