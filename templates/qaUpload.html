@@ -1,0 +1,42 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<head>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        form{
+            display:inline-block;
+        }
+        body{
+            text-align:center
+        }
+
+    </style>
+</head>
+<br>
+<br>
+<br>
+<br>
+<body>
+    <h1>
+        Generate questions and answers from file upload.
+    </h1>
+    <br>
+    <br>
+    <br>
+    <form method='POST' enctype="multipart/form-data">
+        <label for="text">Text to summarize:</label>
+        <br>
+        <input type="file" name="file">
+        <br>
+        <label for="question">Question</label>
+        <input type="text" name="question">
+        <br>
+        <!-- <input type="submit"> -->
+        <button type="submit" class="btn btn-outline-success">Submit text</button>
+
+    </form>
+</body>
+{%endblock%}

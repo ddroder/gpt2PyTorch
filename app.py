@@ -1,18 +1,29 @@
-#TODO: add text fields for summary
-#TODO: add upload functionality
-#TODO: add bootstrap buttons to make things pretty
-#TODO: add flashing
-#TODO: Add user input range of pages for context (page 30 - page 150)
-#TODO: General text generation
-
 from flask import Flask,url_for,request,render_template,flash
 from pipelineSummarize import aiReadingModels
 from flask_bootstrap import Bootstrap
+from pdfReading import reader
 import os
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config['MAX_CONTENT_LENGTH'] = 5024 * 5024
-
+def text_display(file,ext,method,summary_upload_html,page_to_extract=0,question=0):
+    read=reader()
+    if ext=="pdf":
+        data=read.read_pdf_file(file,pageToExtract=page_to_extract)
+    elif ext=="txt":
+        data=read.read_txt_file(file)
+    model=aiReadingModels()
+    if method=="summary":
+        generator=model.summaryGeneration(data)
+    elif method=="qa":
+        context=data
+        generator=model.qaModelGeneration(context=context,question=question)
+    flash(generator,category="success")
+    if ext=="pdf":
+        os.remove(file)
+    else:
+        os.remove(file.filename)
+    return render_template(summary_upload_html)
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -59,15 +70,33 @@ def summary_upload():
         uploaded_file=request.files['file']
         uploaded_file.save(uploaded_file.filename)
         if uploaded_file!= "":
-            with open(uploaded_file.filename,"r") as user_file:
-                txt_to_summarize=user_file.read()
-                model=aiReadingModels()
-                summary_gen=model.summaryGeneration(txt_to_summarize)
-                flash(summary_gen,category="success")
-                os.remove(uploaded_file.filename)
-                return render_template(summary_upload_html)
-        return render_template(summary_upload_html)
-    return render_template(summary_upload_html)
+            if uploaded_file.filename.endswith(".txt"):
+                text_display(uploaded_file,ext="txt",method="summary",summary_upload_html=summary_upload_html) # summary for txt
+            elif uploaded_file.filename.endswith(".pdf"):
+                text_display(uploaded_file.filename,ext="pdf",method="summary",summary_upload_html=summary_upload_html) # summary for pdf
+            elif uploaded_file.filename.endswith(".docx"):
+                text_display(uploaded_file.filename,ext="docx",method="summary",summary_upload_html=summary_upload_html) #return summary for docx
+        return render_template(summary_upload_html) #this means a file was uploaded that was allowed but was not found in any of the conditions
+    return render_template(summary_upload_html) #default return when the user logs onto the webpage
+
+@app.route("/qaUpload",methods=["GET","POST"])
+def qa_upload():
+    if request.method=="POST":
+        qa_upload_html="qaUpload.html"
+        question=request.form['question']
+        context=request.files['file']
+        context.save(context.filename)
+        if context!="":
+            if context.filename.endswith(".txt"):
+                text_display(file=context,question=question,ext="txt",method="qa",summary_upload_html=qa_upload_html) # summary for txt
+            return render_template(qa_upload_html)
+        return render_template(qa_upload_html)
+
+        # model=aiReadingModels()
+        # qaGen=model.qaModelGeneration()
+
+    return render_template("qaUpload.html")
+
 if __name__=="__main__":
     app.run(debug=True)
 
