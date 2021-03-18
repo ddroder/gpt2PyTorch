@@ -6,38 +6,35 @@
         h1 {
             text-align: center;
         }
-
-        form {
-            display: inline-block;
+        form{
+            display:inline-block;
+        }
+        body{
+            text-align:center
         }
 
-        body {
-            text-align: center
-        }
     </style>
 </head>
-
+<br>
+<br>
+<br>
+<br>
 <body>
     <h1>
-        Generate a summary
+        Generate a summary from file upload.
     </h1>
     <br>
     <br>
     <br>
-    <form method='POST'>
+    <form method='POST' enctype="multipart/form-data">
         <label for="text">Text to summarize:</label>
         <br>
-        <input name="text">
+        <input type="file" name="file">
         <br>
         <br>
         <!-- <input type="submit"> -->
         <button type="submit" class="btn btn-outline-success">Submit text</button>
 
     </form>
-    <br>
-    <br>
-    <br>
-    <!-- {%block flash%}
-    {%endblock%} -->
 </body>
 {%endblock%}

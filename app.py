@@ -8,8 +8,11 @@
 from flask import Flask,url_for,request,render_template,flash
 from pipelineSummarize import aiReadingModels
 from flask_bootstrap import Bootstrap
+import os
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.config['MAX_CONTENT_LENGTH'] = 5024 * 5024
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -49,6 +52,22 @@ def text_gen():
         return render_template("text_gen.html")
     return render_template("text_gen.html")
 
+@app.route("/summaryUpload",methods=['GET','POST'])
+def summary_upload():
+    summary_upload_html="uploadFileSummaryModel.html"
+    if request.method=="POST":
+        uploaded_file=request.files['file']
+        uploaded_file.save(uploaded_file.filename)
+        if uploaded_file!= "":
+            with open(uploaded_file.filename,"r") as user_file:
+                txt_to_summarize=user_file.read()
+                model=aiReadingModels()
+                summary_gen=model.summaryGeneration(txt_to_summarize)
+                flash(summary_gen,category="success")
+                os.remove(uploaded_file.filename)
+                return render_template(summary_upload_html)
+        return render_template(summary_upload_html)
+    return render_template(summary_upload_html)
 if __name__=="__main__":
     app.run(debug=True)
 
