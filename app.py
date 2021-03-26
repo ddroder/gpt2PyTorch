@@ -52,7 +52,6 @@ def qa_model():
 @app.route("/textGen",methods=['GET','POST'])
 def text_gen():
     if request.method=="POST":
-        # start_text="A new breed of unicorns has been discovered in the andes mountains!"
         start_text=request.form['text']
         max_length=int(request.form['max_length'])
         num_return_sequences=int(request.form['num_return_sequences'])
